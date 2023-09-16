@@ -1,8 +1,8 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons'; 
 // start menu icons
 
 export const HomeIcon = ({color, size }) => (
@@ -36,3 +36,6 @@ export const LocationIcons = ({color, size}) => (
 export const UserHeaderIcons = ({color, size}) => (
     <FontAwesome name="user-circle-o" size={size} color={color} />
 );
+
+
+

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     value: {testKey: '', login: 'test@guard.com', password: 'Test123!', attemptingLogin: false, errorLogidin: ''} // change login & password back to null
-};
+  };
 
 export const TestSlice = createSlice({
     name: "TestSlice",

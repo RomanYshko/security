@@ -44,54 +44,54 @@ class ShiftControlScreen extends React.Component{
     populateGuardObjects(){
 
         // console.log('populate guard objects');
-
+        
         const axiosInstance = axios.create({
             baseURL: appConfig.backendUrl,
             // timeout: 1000,
             headers: {'Authorization': 'Bearer '+ this.props.authToken}
         });
-
+          
         axiosInstance.get('/mobile/guard/object_list').then(response => {
             // console.log(response.data);
-            this.setState({
+            this.setState({ 
                 guardObjects: response.data,
                 reportButtonChecker: null
-            }, () => {
+            }, () => { 
                 console.log(this.state);
             });
-
+            
         });
     }
 
 
     /**
      * On component mount
-     */
+     */ 
     componentDidMount(){
         console.log('mounted');
-
+        
         let token;
         this.registerForPushNotificationsAsync().then(token => this.props.setExpoPushToken(token));
         console.log('token test 2', this.props.expoPushToken);
-
+        
         Notifications.requestPermissionsAsync();
-
-
+        
+        
         Notifications.setNotificationHandler({
             handleNotification: async () => ({
-                shouldShowAlert: true,
-                shouldPlaySound: false,
-                shouldSetBadge: false,
+              shouldShowAlert: true,
+              shouldPlaySound: false,
+              shouldSetBadge: false,
             }),
-        });
+          });
 
-        Notifications.addNotificationReceivedListener(notification => {
+          Notifications.addNotificationReceivedListener(notification => {
             console.log(notification);
-        });
-
-        Notifications.addNotificationResponseReceivedListener(response => {
+          });
+      
+          Notifications.addNotificationResponseReceivedListener(response => {
             console.log(response);
-        });
+          });
 
         //   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
 
@@ -109,9 +109,9 @@ class ShiftControlScreen extends React.Component{
 
         //     Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
 
-
-        // Second, call the method
-
+          
+          // Second, call the method
+          
         //  Notifications.presentNotificationAsync({
         //     title: 'Expo notification',
         //     body: 'presentNotificationAsync'
@@ -137,78 +137,78 @@ class ShiftControlScreen extends React.Component{
 
         // this.sendPushNotification();
 
-
+        
         this.populateGuardObjects();
         this.checkForActiveShift();
     }
 
     async schedulePushNotification() {
         await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "Report Required",
-                body: "Please confirm you're awake",
-                data: { data: 'goes here' },
-            },
-            trigger: { seconds: 1 },
+          content: {
+            title: "Report Required",
+            body: "Please confirm you're awake",
+            data: { data: 'goes here' },
+          },
+          trigger: { seconds: 1 },
         });
-    }
+      }
 
-    /**
-     * Register for notification & return token
-     */
-    async registerForPushNotificationsAsync() {
+      /**
+       * Register for notification & return token
+       */
+      async registerForPushNotificationsAsync() {
         let token;
-
+      
         if (Platform.OS === 'android') {
-            await Notifications.setNotificationChannelAsync('default', {
-                name: 'default',
-                importance: Notifications.AndroidImportance.MAX,
-                vibrationPattern: [0, 250, 250, 250],
-                lightColor: '#FF231F7C',
-            });
+          await Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+          });
         }
-
+      
         if (Device.isDevice) {
-            //   const { status: existingStatus } = await Notifications.getPermissionsAsync();
-            //   let finalStatus = existingStatus;
-            //   if (existingStatus !== 'granted') {
-            //     const { status } = await Notifications.requestPermissionsAsync();
-            //     finalStatus = status;
-            //   }
-            //   if (finalStatus !== 'granted') {
-            //     alert('Failed to get push token for push notification!');
-            //     return;
-            //   }
+        //   const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        //   let finalStatus = existingStatus;
+        //   if (existingStatus !== 'granted') {
+        //     const { status } = await Notifications.requestPermissionsAsync();
+        //     finalStatus = status;
+        //   }
+        //   if (finalStatus !== 'granted') {
+        //     alert('Failed to get push token for push notification!');
+        //     return;
+        //   }
 
-            token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig.extra.eas.projectId }));
-            //   console.log(token);
+          token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig.extra.eas.projectId }));
+        //   console.log(token);
         } else {
-            alert('Must use physical device for Push Notifications');
+          alert('Must use physical device for Push Notifications');
         }
-
+      
         console.log('token: ', token.data);
         return token.data;
-    }
+      }
 
-    async sendPushNotification() {
+      async sendPushNotification() {
         const message = {
-            to: this.props.expoPushToken,
-            sound: 'default',
-            title: 'Report Request',
-            body: "Please confirm you're awake",
-            data: { someData: 'goes here' },
+          to: this.props.expoPushToken,
+          sound: 'default',
+          title: 'Report Request',
+          body: "Please confirm you're awake",
+          data: { someData: 'goes here' },
         };
-
+      
         await fetch('https://exp.host/--/api/v2/push/send', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Accept-encoding': 'gzip, deflate',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message),
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message),
         });
-    }
+      }
 
     /**
      * (API) check if shift is active
@@ -219,7 +219,7 @@ class ShiftControlScreen extends React.Component{
             baseURL: appConfig.backendUrl,
             headers: {'Authorization': 'Bearer '+ this.props.authToken}
         });
-
+          
         axiosInstance.get('/mobile/guard/get_active_shift').then(response => {
             if(response.data.status == 'active_shift_found'){
                 this.props.setObjectId(response.data.object_id) ;
@@ -228,8 +228,8 @@ class ShiftControlScreen extends React.Component{
                 this.startRepotButtonPoll();
 
             }
-
-
+            
+            
         });
     }
 
@@ -251,65 +251,65 @@ class ShiftControlScreen extends React.Component{
         if(this.props.shiftOpened == false){
             return (
                 <View>
-
+                    
                     <SelectDropdown
-                        data={guardObjects}
-                        defaultButtonText="Select object"
-                        onSelect={(selectedItem, index) => {
+                            data={guardObjects}
+                            defaultButtonText="Select object"
+                            onSelect={(selectedItem, index) => {
+                                 
+                                
+                                // console.log(selectedItem.id);
 
+                                this.props.setObjectId(selectedItem.id);
+                                this.props.setObjectName(selectedItem.name);
+                                
+                                const axiosInstance = axios.create({
+                                    baseURL: appConfig.backendUrl,
+                                    headers: {'Authorization': 'Bearer ' + this.props.authToken}
+                                });
+                                  
+                                axiosInstance.get('/mobile/guard/object_shift_status/1').then(response => {
+                                    // add 401 processing
+                                    // console.log(response.data);
+                                    if(response.data.status == 'shift_active'){
+                                        
+                                        // Set status to shift opened
+                                        this.props.setShiftOpened();
 
-                            // console.log(selectedItem.id);
+                                        // Start report button poll
+                                        this.startRepotButtonPoll();
 
-                            this.props.setObjectId(selectedItem.id);
-                            this.props.setObjectName(selectedItem.name);
+                                        
 
-                            const axiosInstance = axios.create({
-                                baseURL: appConfig.backendUrl,
-                                headers: {'Authorization': 'Bearer ' + this.props.authToken}
-                            });
+                                    } else if (response.data.status == 'shift_inactive'){
+                                        this.props.setShiftClosed();
+                                    }
+                                });
 
-                            axiosInstance.get('/mobile/guard/object_shift_status/1').then(response => {
-                                // add 401 processing
-                                // console.log(response.data);
-                                if(response.data.status == 'shift_active'){
-
-                                    // Set status to shift opened
-                                    this.props.setShiftOpened();
-
-                                    // Start report button poll
-                                    this.startRepotButtonPoll();
-
-
-
-                                } else if (response.data.status == 'shift_inactive'){
-                                    this.props.setShiftClosed();
-                                }
-                            });
-
-                            this.setState({
-                                guardObjects: this.state.guardObjects,
-                                reportButtonChecker: null
-                            });
-
-                            //console.log(selectedItem, index);
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            // text represented after item is selected
-                            // if data array is an array of objects then return selectedItem.property to render after item is selected
-                            return selectedItem.name
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            // text represented for each item in dropdown
-                            // if data array is an array of objects then return item.property to represent item in dropdown
-                            return item.name
-                        }}
-                    />
-
+                                this.setState({
+                                    guardObjects: this.state.guardObjects,
+                                    reportButtonChecker: null
+                                });
+                                
+                                //console.log(selectedItem, index);
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem.name
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item.name
+                            }}
+                        />
+                    
                 </View>
             );
-
+        
         }
-
+        
     }
 
     closeShiftUi(){
@@ -318,7 +318,7 @@ class ShiftControlScreen extends React.Component{
             baseURL: appConfig.backendUrl,
             headers: {'Authorization': 'Bearer '+ this.props.authToken}
         });
-
+          
         axiosInstance.post('/mobile/guard/object_shifts/close_shift', null, { params: {objectId: this.props.selectedObjectId} }).then(response => {
             if(response.data.status == 'shift_closed'){
                 this.props.setShiftClosed();
@@ -331,8 +331,8 @@ class ShiftControlScreen extends React.Component{
                     reportButtonChecker: null
                 });
             }
-
-
+            
+            
         });
 
     }
@@ -340,7 +340,7 @@ class ShiftControlScreen extends React.Component{
 
 
     openShiftUi(){
-
+        
 
         // Create axios instance
         const axiosInstance = axios.create({
@@ -379,7 +379,7 @@ class ShiftControlScreen extends React.Component{
             }
 
         }
-
+        
     }
 
     reportAwake(){
@@ -387,13 +387,13 @@ class ShiftControlScreen extends React.Component{
             baseURL: appConfig.backendUrl,
             headers: {'Authorization': 'Bearer '+ this.props.authToken}
         });
-
+          
         axiosInstance.post('/mobile/guard/object_shifts/report_not_sleeping', null, { params: {object_id: this.props.selectedObjectId} })
             .then(response => {
-                if(response.data.status == 'report_success'){
-                    this.props.setReportButtonInactive()
-                }
-            })
+            if(response.data.status == 'report_success'){
+                this.props.setReportButtonInactive()
+            }
+        })
             .catch(error => {
                 console.log(error.toJson());
             });
@@ -409,32 +409,32 @@ class ShiftControlScreen extends React.Component{
     }
 
     startRepotButtonPoll(){
-
+        
         this.setState((state, props) => {
-            return {
+            return { 
                 guardObjects: this.state.guardObjects,
                 reportButtonChecker: setInterval(function(){
-
+                    
                     const axiosInstance = axios.create({
                         baseURL: appConfig.backendUrl,
                         headers: {'Authorization': 'Bearer '+ props.authToken}
                     });
 
                     // console.log(state);
-
+                      
                     axiosInstance.get('/mobile/guard/object_shifts/' + props.selectedObjectId + '/is_report_button_active').then( (response) => {
                         console.log(response.data.status);
-
+                        
                         if(response.data.status == 'button_active'){
-
+                            
                             // console.log('notification check', props.reportNotificationShown);
                             // Trigger notification
                             if(state.notificationShown == false){
 
-                                state.notificationShown = true;
+                                  state.notificationShown = true;
 
                             }
-
+                            
                             // Activate button
                             props.setReportButtonActive();
                             // props.setReportNotificationShown();
@@ -449,7 +449,7 @@ class ShiftControlScreen extends React.Component{
                 }, 1000)
             }
         });
-
+    
     }
 
     logoutButton(){
@@ -464,12 +464,12 @@ class ShiftControlScreen extends React.Component{
                 <View>
                     <Text>{"\n"}{"\n"}</Text>
                     <Button title="Logout" color="red" style={logoutStyles.logoutButton} onPress={() => this.logoutAction() }></Button>
-
+    
                 </View>
             );
 
         }
-
+        
 
     }
 
@@ -495,15 +495,15 @@ class ShiftControlScreen extends React.Component{
             );
 
         }
-
+        
     }
 
 
     testTriggerNotification(){
         console.log('test trigger notification');
-
-    }
-
+        
+    }   
+    
     tokenCheck(){
         return (
             <Text>
@@ -520,13 +520,13 @@ class ShiftControlScreen extends React.Component{
         // <Text>{ this.props.selectedObjectId }</Text>
         return (
             <View style={GlobalStyle.main}>
-                <Text>Shift Control</Text>
-                { this.UiObjectSelector() }
-                { this.objectNameLabel() }
-                { this.openCloseShiftButton() }
-                { this.reportButton() }
-                { this.logoutButton() }
-                { this.tokenCheck() }
+              <Text>Shift Control</Text>
+              { this.UiObjectSelector() }
+              { this.objectNameLabel() }
+              { this.openCloseShiftButton() }
+              { this.reportButton() }
+              { this.logoutButton() }
+              { this.tokenCheck() }              
             </View>
         );
     }
@@ -535,15 +535,15 @@ class ShiftControlScreen extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        authToken: state.test.value.testKey,
-        selectedObjectId: state.shift.value.selectedObjectId,
-        selectedObjectName: state.shift.value.selectedObjectName,
-        shiftOpened: state.shift.value.shiftOpened,
-        reportButtonActive: state.shift.value.reportButtonActive,
-        reportNotificationShown: state.shift.value.reportNotificationShown,
-        expoPushToken: state.shift.value.expoPushToken
+      authToken: state.test.value.testKey,
+      selectedObjectId: state.shift.value.selectedObjectId,
+      selectedObjectName: state.shift.value.selectedObjectName,
+      shiftOpened: state.shift.value.shiftOpened,
+      reportButtonActive: state.shift.value.reportButtonActive,
+      reportNotificationShown: state.shift.value.reportNotificationShown,
+      expoPushToken: state.shift.value.expoPushToken
     };
-};
+  };
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -559,8 +559,8 @@ const mapDispatchToProps = (dispatch) => {
         setReportNotificationShown: () => dispatch(setReportNotificationShown()),
         setReportNotificationNotShown: () => dispatch(setReportNotificationNotShown()),
         logoutReducer: () => dispatch(logoutReducer()),
-
+        
     };
 };
-
+    
 export default connect(mapStateToProps, mapDispatchToProps)(ShiftControlScreen);

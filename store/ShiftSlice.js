@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 const initialState = {
-    value: {
+    value: { 
         selectedObjectId: null,
         selectedObjectName: null,
         shiftOpened: false,
@@ -11,7 +11,7 @@ const initialState = {
         expoPushToken: null
 
     }
-};
+  };
 
 export const ShiftSlice = createSlice({
     name: "ShiftSlice",
@@ -20,7 +20,7 @@ export const ShiftSlice = createSlice({
         setObjectId: (state, testparam) => {
             console.log('set object id');
             state.value.selectedObjectId = testparam.payload;
-
+            
         },
         setObjectName: (state, objectName) => {
             console.log('set name');
@@ -64,11 +64,11 @@ export const ShiftSlice = createSlice({
         setExpoPushToken: (state, newToken) => {
             state.value.expoPushToken = newToken.payload;
         }
-
+        
     }
 });
 
-export const { setObjectId,
+export const { setObjectId, 
     setObjectName, setShiftOpened, setShiftClosed, openShift, closeShift, setReportButtonActive, setReportButtonInactive,
     setReportNotificationShown, setReportNotificationNotShown, sliceReportCheck, setExpoPushToken } = ShiftSlice.actions;
 
