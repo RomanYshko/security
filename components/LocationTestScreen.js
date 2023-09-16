@@ -1,3 +1,5 @@
+import React, { Component, useDeferredValue } from 'react';
+
 import { StyleSheet, Button, View, Text } from 'react-native';
 
 import * as Location from 'expo-location';

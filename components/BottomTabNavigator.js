@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { HomeIcon, ShiftIcon, HomeIconOutline, ShiftIconOutline, LocationIcons, LocationIconOutline } from './TabIcons';
 import Header from './Header';
-
 // Custom classes
 import LoginScreen from '../LoginScreenClass';
 import HomeScreen from "../components/HomeScreen";
