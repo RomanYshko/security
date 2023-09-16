@@ -1,6 +1,4 @@
-import React, { Component, useDeferredValue } from 'react';
-import ReactDOM from 'react-dom/client';
-import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from 'react-native';
+import { StyleSheet, Button, View, Text } from 'react-native';
 
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
@@ -9,6 +7,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 class LocationTestScreen extends React.Component{
+    l1;
+    l2;
     
     constructor(props){
         super(props);
@@ -34,8 +34,8 @@ class LocationTestScreen extends React.Component{
                 let lat = locations[0].coords.latitude;
                 let long = locations[0].coords.longitude;
         
-                l1 = lat;
-                l2 = long;
+                this.l1 = lat;
+                this.l2 = long;
         
                 console.log(
                     `${new Date(Date.now()).toLocaleString()}: ${lat},${long}`

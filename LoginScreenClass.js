@@ -1,15 +1,10 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom/client';
-import { StyleSheet, Button, View, SafeAreaView, Text, Alert, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 
 // Style
 import { GlobalStyle } from './assets/style/GlobalStyle';
 import { LogidinStyle } from './assets/style/LogidinStyle';
 // Axios
 import axios from 'axios';
-
-// Stack navigation
-import { useNavigation } from '@react-navigation/native';
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";

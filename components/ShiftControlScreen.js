@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom/client';
+
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from 'react-native';
 
 // Select dropdown

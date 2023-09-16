@@ -3,12 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { HomeIcon, ShiftIcon, HomeIconOutline, ShiftIconOutline, LocationIcons, LocationIconOutline } from './TabIcons';
 import Header from './Header';
 
-
 // Custom classes
-import Test from '../TestClass.js';
 import LoginScreen from '../LoginScreenClass';
 import HomeScreen from "../components/HomeScreen";
-import AboutScreen from "../components/AboutScreen";
 import ShiftControlScreen from '../components/ShiftControlScreen';
 import LocationTestScreen from '../components/LocationTestScreen';
 import NotificationScreen from '../components/NotificationScreen';
@@ -19,7 +16,6 @@ const Stack = createNativeStackNavigator();
 // Task manager
 import * as TaskManager from 'expo-task-manager';
 // /task manager
-
 
 export default function BottomTabNavigator() {
 
@@ -104,8 +100,6 @@ TaskManager.defineTask('testTask', async ({ data, error }) => {
          tabBarLabel: 'Shift', 
          header: (props) => <Header {...props} />
          }} />
-
-      <Tab.Screen name="Test" component={Test} options={{ tabBarLabel: ' '}} />
     </Tab.Navigator>
   );
 }
